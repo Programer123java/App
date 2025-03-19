@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script> <!-- QR Code Scanner Script -->
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background: linear-gradient(135deg, #ff4e50, #ffb67a); /* Gradient Background */
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            margin: 0 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* QR Scanner Styles */
+        .content {
+            margin-top: 100px; /* Space for navbar */
+            text-align: center;
+        }
+
+        .qr-display {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* QR Scanner Area */
+        #qr-reader {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Styling */
+        #start-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ff4e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        #start-button:hover {
+            background-color: #ffb67a;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar a {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="index.html">Calculator</a>
+        <a href="compass.html">Compass</a>
+        <a href="qr.html">QR</a>
+    </div>
+
+    <!-- QR Scanner Content -->
+    <div class="content">
+        <div class="qr-display">
+            <h2>Scan QR Code</h2>
+            <div id="qr-reader" style="width: 100%;"></div>
+            <p id="scan-result" style="margin-top: 20px;"></p>
+            <button id="start-button" onclick="startScanning()">Start Scanning</button>
+        </div>
+    </div>
+
+    <script>
+        // Dynamically load the navbar
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+            })
+            .catch(err => console.error('Error loading navbar:', err));
+
+        // QR Code scanner functionality
+        let html5QrcodeScanner;
+        let isScanning = false;
+
+        function startScanning() {
+            if (isScanning) return; // Prevent multiple clicks
+
+            // Start scanning
+            html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+                fps: 10,
+                qrbox: 250
+            });
+
+            html5QrcodeScanner.render(onScanSuccess, onScanError);
+            isScanning = true;
+        }
+
+        // Success callback when a QR code is scanned
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById('scan-result').textContent = `QR Code decoded: ${decodedText}`;
+            
+            // If the decoded text is a URL, open it in a new tab
+            if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+                window.open(decodedText, "_blank");
+            }
+        }
+
+        // Error callback when an error occurs during scanning
+        function onScanError(errorMessage) {
+            console.error(`QR Code scan error: ${errorMessage}`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!-- compass.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compass</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background: linear-gradient(135deg, #ff4e50, #ffb67a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            margin: 0 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Compass Styles */
+        .content {
+            margin-top: 100px; /* Space for navbar */
+            text-align: center;
+        }
+
+        .compass-display {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .compass {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .direction {
+            font-size: 1.5em;
+            color: #ff4e50;
+        }
+
+        /* Responsive Navbar */
+        @media (max-width: 768px) {
+            .navbar a {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="index.html">Calculator</a>
+        <a href="compass.html">Compass</a>
+        <a href="qr.html">QR</a>
+    </div>
+
+    <!-- Compass Content -->
+    <div class="content">
+        <div class="compass-display">
+            <div class="compass">
+                <span id="compass-heading">0°</span>
+            </div>
+            <div class="direction">
+                <span id="compass-direction">North</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compass Script -->
+    <script>
+        // Function to get and update compass direction
+        function updateCompass(event) {
+            if (event.alpha !== null) {
+                const heading = event.alpha;
+                const direction = getCompassDirection(heading);
+
+                // Update the display
+                document.getElementById('compass-heading').textContent = `${Math.round(heading)}°`;
+                document.getElementById('compass-direction').textContent = direction;
+            }
+        }
+
+        // Helper function to determine direction based on heading
+        function getCompassDirection(heading) {
+            if (heading >= 0 && heading < 22.5) {
+                return 'North';
+            } else if (heading >= 22.5 && heading < 67.5) {
+                return 'North-East';
+            } else if (heading >= 67.5 && heading < 112.5) {
+                return 'East';
+            } else if (heading >= 112.5 && heading < 157.5) {
+                return 'South-East';
+            } else if (heading >= 157.5 && heading < 202.5) {
+                return 'South';
+            } else if (heading >= 202.5 && heading < 247.5) {
+                return 'South-West';
+            } else if (heading >= 247.5 && heading < 292.5) {
+                return 'West';
+            } else if (heading >= 292.5 && heading < 337.5) {
+                return 'North-West';
+            } else {
+                return 'North';
+            }
+        }
+
+        // Check for device orientation and add event listener
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener("deviceorientation", updateCompass, false);
+        } else {
+            alert("Device orientation is not supported on this device.");
+        }
+    </script>
+</body>
+</html>

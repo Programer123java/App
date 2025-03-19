@@ -1,0 +1,62 @@
+<!-- navbar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Default Navbar Styles */
+        .navbar {
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            font-family: Arial, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* Colorful navbar for Compass and QR pages */
+        .navbar.compass-nav {
+            background: linear-gradient(45deg, #3498db, #8e44ad, #e74c3c); /* Gradient colors */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar.qr-nav {
+            background: linear-gradient(45deg, #1abc9c, #f39c12, #9b59b6); /* Gradient colors */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        /* Responsive for Mobile */
+        @media (max-width: 600px) {
+            .navbar a {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">Calculator</a>
+        <a href="compass.html">Compass</a>
+        <a href="qr.html">QR Scanner</a>
+    </div>
+</body>
+</html>
